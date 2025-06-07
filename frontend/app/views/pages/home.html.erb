@@ -1,0 +1,10 @@
+<% @classes_for_body = "bg-gradient-to-b from-indigo-500 to-pink-500" %>
+
+<div class="w-full flex flex-col items-center min-h-screen">
+  <h1 class="font-bold text-7xl font-header text-yellow-500">Daisy Social</h1>
+  <p class="text-2xl text-purple-100 mt-4">A social media app built with Ruby on Rails & DaisyUI</p>
+  <div class="mt-4 flex items-center gap-4"> 
+    <%= link_to "Sign In", new_session_path, class: "btn btn-primary" %>
+    <%= link_to "Create Account", new_session_path, class: "btn btn-secondary" %>
+  </div>
+</div>

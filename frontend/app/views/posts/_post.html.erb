@@ -1,0 +1,20 @@
+<div id="<%= dom_id post %>" class="w-full sm:w-auto my-5 space-y-5">
+  <div>
+    <strong class="block font-medium mb-1">User:</strong>
+    <%= post.user_id %>
+  </div>
+  <div>
+    <strong class="block font-medium mb-1">Caption:</strong>
+    <%= post.caption %>
+  </div>
+  <div>
+    <strong class="block font-medium mb-1">Body:</strong>
+    <%= post.body %>
+  </div>
+  <div>
+    <strong class="block font-medium mb-1">Images:</strong>
+    <% post.images.each do |image| %>
+      <div><%= link_to image.filename, image, class: "text-gray-700 underline hover:no-underline" %></div>
+    <% end %>
+  </div>
+</div>

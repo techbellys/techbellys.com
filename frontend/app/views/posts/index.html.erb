@@ -1,0 +1,33 @@
+<% content_for :title, "Posts" %>
+
+<div class="w-full">
+  <h1 class="font-bold text-4xl">View All Posts</h1>
+
+  <div class="w-full flex flex-col items-center gap-8 mt-8"> 
+    <% @posts.each do |post| %>
+      <div class="card bg-base-100 w-96 shadow-sm">
+        <figure>
+          <div class="carousel w-full">
+            <% post.images.each.with_index do |image, index| %> 
+              <div id="slide<%= index %>" class="carousel-item relative w-full">
+                <%= image_tag(image, class: "h-56 w-full object-cover") if post.images.any? %>
+                <div class="absolute left-5 right-5 top-1/2 flex -translate-y-1/2 transform justify-between">
+                  <a href="#slide<%= index - 1 %>" class="btn btn-circle">❮</a>
+                  <a href="#slide<%= index + 1 %>" class="btn btn-circle">❯</a>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </figure>
+        <div class="card-body">
+          <h2 class="card-title"><%= post.caption %></h2>
+          <p><%= post.body.first(100) %></p>
+          <p>by <%= post.user.email_address %></p>
+          <div class="card-actions justify-end">
+            <button class="btn btn-primary">Like Post</button>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
