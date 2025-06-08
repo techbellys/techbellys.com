@@ -33,51 +33,19 @@ services:
     ports:
       - "6379:6379"
 
-  elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:8.13.4
-    container_name: elasticsearch
-    environment:
-      - discovery.type=single-node
-      - xpack.security.enabled=false
-      - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-    ulimits:
-      memlock:
-        soft: -1
-        hard: -1
-    ports:
-      - "9200:9200"
-    volumes:
-      - ./shared/elasticsearch:/usr/share/elasticsearch/data
-
   # App Services
-  # auth_service:
-  #   build:
-  #     context: ./services/auth_service
-  #   volumes:
-  #     - ./services/auth_service:/app
-  #   depends_on:
-  #     - mysql
-  #     - redis
-  #   environment:
-  #     DB_HOST: mysql
-  #     DB_USERNAME: root
-  #     DB_PASSWORD: password
-  #   ports:
-  #     - "3000:3000"
-
-  # job_service:
-  #   build:
-  #     context: ./services/job_service
-  #   volumes:
-  #     - ./services/job_service:/app
-  #   depends_on:
-  #     - mysql
-  #     - elasticsearch
-  #   environment:
-  #     DB_HOST: mysql
-  #     DB_USERNAME: root
-  #     DB_PASSWORD: password
-  #   ports:
-  #     - "3001:3001"
+  frontend_service:
+    build:
+      context: ./services/frontend_service
+      dockerfile: Dockerfile
+    container_name: frontend_service
+    environment:
+      RAILS_ENV: production
+      RAILS_MASTER_KEY: ${RAILS_MASTER_KEY}
+      SECRET_KEY_BASE: ${SECRET_KEY_BASE}
+    volumes:
+      - ./services/frontend_service:/rails
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
 

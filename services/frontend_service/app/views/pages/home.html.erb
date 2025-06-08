@@ -1,0 +1,37 @@
+<% @classes_for_body = "bg-gradient-to-b from-indigo-500 to-pink-500 min-h-screen text-white" %>
+
+<!-- Hero Section -->
+<section class="text-center px-6 pt-32">
+  <h1 class="text-5xl md:text-7xl font-extrabold text-yellow-400 drop-shadow-lg">TechBellys</h1>
+  <p class="mt-6 text-lg md:text-xl text-purple-100 max-w-2xl mx-auto">
+    A social media platform where makers, devs, and tinkerers connect, build, and share the future.
+  </p>
+  <div class="mt-8 flex justify-center">
+    <a href="#features" class="btn btn-outline btn-accent">Explore Features</a>
+  </div>
+
+</section>
+
+<!-- Features Section -->
+<section id="features" class="mt-28 max-w-7xl mx-auto px-6">
+  <h2 class="text-3xl font-bold text-white mb-10 text-center">Why TechBellys?</h2>
+  <div class="grid md:grid-cols-3 gap-6">
+    <div class="bg-base-100 p-6 rounded-lg shadow-lg hover:scale-105 transition transform duration-300">
+      <h3 class="text-xl font-semibold mb-2 text-pink-600">Tech-Driven Posts</h3>
+      <p class="text-base-content">Share thoughts, launches, builds and reflections with like-minded creators.</p>
+    </div>
+    <div class="bg-base-100 p-6 rounded-lg shadow-lg hover:scale-105 transition transform duration-300">
+      <h3 class="text-xl font-semibold mb-2 text-pink-600">No Noise, Just Signals</h3>
+      <p class="text-base-content">Minimalist feed, focused on tech-first ideas and genuine collaboration.</p>
+    </div>
+    <div class="bg-base-100 p-6 rounded-lg shadow-lg hover:scale-105 transition transform duration-300">
+      <h3 class="text-xl font-semibold mb-2 text-pink-600">Built for Builders</h3>
+      <p class="text-base-content">Post updates, host micro-projects, share learnings. Stay in flow.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="mt-28 py-6 text-center text-sm text-base-content">
+  &copy; <%= Time.now.year %> TechBellys. All rights reserved.
+</footer>

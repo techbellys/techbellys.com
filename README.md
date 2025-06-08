@@ -1,7 +1,7 @@
 ```source ~/.zprofile
 
-rbenv install 3.4.0 # Or whatever the latest stable version is
-rbenv global 3.4.0
+rbenv install ruby-3.4.2 # Or whatever the latest stable version is
+rbenv global ruby-3.4.2
 
 gem install bundler
 gem install rails
@@ -133,3 +133,13 @@ for logs similar to python print as "Rails.logger.info("Decoded token: #{decoded
 incase no db required
 
 bundle exec rails new . --api --skip-active-record --skip-bundle
+
+
+* frontend
+```
+rails new frontend_service --css=tailwind
+
+bin/dev
+```
+
+docker-compose --env-file .env up --build -d
