@@ -4,7 +4,7 @@ services:
   # Shared Services
   mysql:
     image: mysql:8
-    container_name: mysql
+    container_name: techbellys-mysql
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: password
@@ -14,7 +14,7 @@ services:
       - ./shared/mysql:/var/lib/mysql
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
-    container_name: phpmyadmin
+    container_name: techbellys-phpmyadmin
     platform: linux/x86_64
     environment:
       PMA_HOST: mysql
@@ -29,7 +29,7 @@ services:
 
   redis:
     image: redis:7
-    container_name: redis
+    container_name: techbellys-redis
     ports:
       - "6389:6379"
 
@@ -38,7 +38,7 @@ services:
     build:
       context: ./services/frontend_service
       dockerfile: Dockerfile
-    container_name: frontend_service
+    container_name: techbellys-frontend_service
     environment:
       RAILS_ENV: production
       RAILS_MASTER_KEY: ${RAILS_MASTER_KEY}
