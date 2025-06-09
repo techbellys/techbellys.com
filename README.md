@@ -152,3 +152,56 @@ bundle lock --add-platform x86_64-linux
 docker-compose exec auth_service bundle exec rails db:create db:migrate
 
 ```
+
+
+* blazer
+
+```
+mkdir blazer_dashboard && cd blazer_dashboard
+
+bundle init
+
+bundle exec rails new . -d mysql --skip-bundle
+
+bundle config --local build.mysql2 \
+  "--with-ldflags=-L/opt/homebrew/opt/zstd/lib \
+   --with-cppflags=-I/opt/homebrew/opt/zstd/include \
+   --with-mysql-config=$(brew --prefix mysql)/bin/mysql_config"
+
+bundle install
+
+bundle exec rails db:create
+
+rails generate blazer:install
+
+rails db:migrate
+
+rails generate model Product name:string price:decimal
+rails db:migrate
+
+```
+
+in db/seed.rb
+
+```
+10.times do
+  Product.create!(
+    name: ["Phone", "Laptop", "Tablet", "Camera"].sample,
+    price: rand(100..2000)
+  )
+end
+
+rails db:seed
+
+```
+
+now visit 
+http://localhost:3005/blazer/queries/new
+
+and run in query 
+
+```
+SELECT name, AVG(price) AS avg_price
+FROM products
+GROUP BY name
+```
