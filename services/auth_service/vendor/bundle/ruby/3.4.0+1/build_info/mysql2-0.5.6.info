@@ -1,3 +1,0 @@
---with-ldflags=-L/opt/homebrew/opt/zstd/lib
---with-cppflags=-I/opt/homebrew/opt/zstd/include
---with-mysql-config=/opt/homebrew/opt/mysql/bin/mysql_config
