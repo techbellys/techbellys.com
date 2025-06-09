@@ -6,7 +6,7 @@ FROM docker.io/library/ruby:$RUBY_VERSION-slim AS base
 
 WORKDIR /rails
 
-# Base system deps only
+# Install base packages
 RUN apt-get update -qq && \
     apt-get install --no-install-recommends -y \
     curl libjemalloc2 libvips sqlite3 && \
@@ -20,46 +20,42 @@ ENV RAILS_ENV="production" \
 # ---- Build Stage ----
 FROM base AS build
 
-# Install build tools, Node.js, Yarn (v1)
+# Install build tools and Node + Yarn (v1)
 RUN apt-get update -qq && \
     apt-get install --no-install-recommends -y \
     build-essential git libyaml-dev pkg-config curl && \
     curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && \
-    apt-get install --no-install-recommends -y nodejs && \
+    apt-get install -y nodejs && \
     npm install -g yarn && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
-# Install Ruby gems
+# Install Ruby dependencies
 COPY Gemfile Gemfile.lock ./
 RUN gem install bundler -v 2.6.9 && \
     bundle install && \
     rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/cache "${BUNDLE_PATH}"/ruby/*/bundler/gems/*/.git && \
     bundle exec bootsnap precompile --gemfile
 
-# Copy app source
+# Copy app code
 COPY . .
 
-# Precompile bootsnap & assets
-RUN bundle exec bootsnap precompile app/ lib/ && \
-    yarn install --frozen-lockfile && \
-    SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile && \
-    ./bin/rails javascript:build && \
-    ./bin/rails css:build
+# JS/CSS + Assets
+RUN yarn install --frozen-lockfile && \
+    SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile
 
 # ---- Final Stage ----
 FROM base
 
-# Copy runtime dependencies from build stage
+# Copy built code
 COPY --from=build /usr/local/bundle /usr/local/bundle
 COPY --from=build /rails /rails
 COPY --from=build /rails/public /rails/public
 
-# Create non-root Rails user
+# Permissions & user
 RUN groupadd --system --gid 1000 rails && \
     useradd rails --uid 1000 --gid 1000 --create-home --shell /bin/bash && \
     mkdir -p tmp/pids tmp/cache log storage && \
     chown -R rails:rails db log storage tmp
-
 USER 1000:1000
 
 ENTRYPOINT ["/rails/bin/docker-entrypoint"]
