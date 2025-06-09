@@ -52,29 +52,29 @@ RUN SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile
 # Final stage for app image
 FROM base
 
-# 🛠️ Create non-root user FIRST
+# 🔧 Add user before copying files
 RUN groupadd --system --gid 1000 rails && \
     useradd rails --uid 1000 --gid 1000 --create-home --shell /bin/bash
 
-# 📦 Copy application and gems
-COPY --from=build "${BUNDLE_PATH}" "${BUNDLE_PATH}"
-COPY --from=build /rails /rails
+# 💾 Copy application and gems
+COPY --from=build --chown=rails:rails "${BUNDLE_PATH}" "${BUNDLE_PATH}"
+COPY --from=build --chown=rails:rails /rails /rails
 
-# 🔐 Fix file ownership after copying
-RUN chown -R rails:rails /rails
+# ✅ Set working directory
+WORKDIR /rails
 
-# 🚫 Avoid permission errors for pids/tmp/log/etc
+# 📁 Ensure writable folders are created and owned correctly
 RUN mkdir -p tmp/pids log storage && \
     chown -R rails:rails tmp log storage
 
-# 🔐 Drop to non-root user
+# 🚫 Set user after permissions fixed
 USER rails
 
-# 🚀 Entrypoint for DB preparation
+# 🏁 Entrypoint handles db setup
 ENTRYPOINT ["/rails/bin/docker-entrypoint"]
 
-# 🌐 Web server binding
+# 🌍 Expose app port
 EXPOSE 3000
 
-# 🧹 Clean stale pid + start server
+# 🚀 Launch server safely
 CMD ["sh", "-c", "rm -f tmp/pids/server.pid && ./bin/rails server -b 0.0.0.0"]
