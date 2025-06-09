@@ -62,11 +62,11 @@ FROM base
 COPY --from=build /usr/local/bundle /usr/local/bundle
 COPY --from=build /rails /rails
 
-# Create non-root user and set ownership
+# Create a non-root user for security and fix permissions
 RUN groupadd --system --gid 1000 rails && \
     useradd rails --uid 1000 --gid 1000 --create-home --shell /bin/bash && \
-    mkdir -p tmp/pids log storage && \
-    chown -R rails:rails tmp log storage
+    mkdir -p /rails/tmp/pids /rails/tmp/cache /rails/log /rails/storage && \
+    chown -R rails:rails /rails/tmp /rails/log /rails/storage
 
 USER rails
 
@@ -76,3 +76,4 @@ ENTRYPOINT ["/rails/bin/docker-entrypoint"]
 EXPOSE 4001
 
 CMD ["./bin/rails", "server", "-b", "0.0.0.0"]
+
