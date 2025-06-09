@@ -46,7 +46,7 @@ services:
     volumes:
       - ./services/frontend_service:/rails
     ports:
-      - "4000:3000"
+      - "4000:4000"
     restart: unless-stopped
 
   # # ✅ Auth API Rails App (API-only)
@@ -68,8 +68,24 @@ services:
     volumes:
       - ./services/auth_service:/rails
     ports:
-      - "4001:3000"
+      - "4001:4001"
     depends_on:
       - mysql
       - redis
+    restart: unless-stopped
+
+# ✅ API Gateway Rails App (API-only)
+  api_gateway:
+    build:
+      context: ./services/api_gateway
+      dockerfile: Dockerfile
+    container_name: techbellys-api_gateway
+    environment:
+      RAILS_ENV: production
+      RAILS_MASTER_KEY: ${GATEWAY_RAILS_MASTER_KEY}
+      SECRET_KEY_BASE: ${GATEWAY_SECRET_KEY_BASE}
+    volumes:
+      - ./services/api_gateway:/rails
+    ports:
+      - "5003:5003"
     restart: unless-stopped
