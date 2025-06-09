@@ -84,6 +84,7 @@ services:
       RAILS_ENV: production
       RAILS_MASTER_KEY: ${GATEWAY_RAILS_MASTER_KEY}
       SECRET_KEY_BASE: ${GATEWAY_SECRET_KEY_BASE}
+      AUTH_SERVICE_URL: ${AUTH_SERVICE_URL}
     volumes:
       - ./services/api_gateway:/rails
     ports:
