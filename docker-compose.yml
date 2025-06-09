@@ -57,7 +57,7 @@ services:
     container_name: techbellys-auth_service
     environment:
       RAILS_ENV: production
-      RAILS_MASTER_KEY: ${AUTH_SECRET_KEY_BASE}
+      RAILS_MASTER_KEY: ${AUTH_RAILS_MASTER_KEY}
       SECRET_KEY_BASE: ${AUTH_SECRET_KEY_BASE}
       DB_USERNAME: ${DB_USERNAME}
       DB_PASSWORD: ${DB_PASSWORD}
