@@ -31,9 +31,7 @@ class Api::V1::ProxyController < ApplicationController
   def service_base_url(service)
     case service
     when :auth
-      ENV.fetch('AUTH_SERVICE_URL', 'http://localhost:3000')
-    when :job
-      ENV.fetch('JOB_SERVICE_URL', 'http://localhost:3001')
+      ENV.fetch('AUTH_SERVICE_URL', 'http://localhost:4001')
     else
       raise ArgumentError, "Unknown service: #{service}"
     end
