@@ -30,6 +30,9 @@ COPY . .
 RUN yarn install && \
     SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile
 
+RUN ls -la /rails/public/
+
+RUN ls -la /rails/public/assets/
 # -------- Final Runtime Layer --------
 FROM base
 
