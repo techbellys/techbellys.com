@@ -3,17 +3,21 @@
 
 @font-face {
   font-family: "Pulang";
-  src: url("../fonts/Pulang.ttf");
-}
-@font-face {
-  font-family: "Anime";
-  src: url("../fonts/Anime.ttf");
-}
-@font-face {
-  font-family: "Delius";
-  src: url("../fonts/Delius.ttf");
+  src:
+    url("/fonts/Pulang.ttf")
 }
 
+@font-face {
+  font-family: "Anime";
+  src:
+    url("/fonts/Anime.ttf")
+}
+
+@font-face {
+  font-family: "Delius";
+  src:
+    url("/fonts/Delius.ttf")
+}
 
 @theme {
   --font-header: "Pulang", "sans-serif";
