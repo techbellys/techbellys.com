@@ -33,9 +33,9 @@ RUN apt-get update -qq && \
     pkg-config \
     libssl-dev \
     libffi-dev \
-    libmariadb-dev \
     libmariadb-dev-compat \
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/archives
+    libmariadb-dev && \
+    rm -rf /var/lib/apt/lists/* /var/cache/apt/archives
 
 # Ensure matching bundler version
 RUN gem install bundler -v 2.6.9
