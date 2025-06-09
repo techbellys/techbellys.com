@@ -74,4 +74,8 @@ Rails.application.configure do
   #
   # Skip DNS rebinding protection for the default health check endpoint.
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
+  config.hosts << "techbellys.com"
+  config.hosts << "api.techbellys.com"
+  config.hosts << "localhost"
+  config.hosts << IPAddr.new("0.0.0.0/0")  # allow all IPs temporarily (caution in public-facing apps)
 end
