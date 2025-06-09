@@ -49,32 +49,24 @@ RUN bundle exec bootsnap precompile app/ lib/
 RUN SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile
 
 
-# Final stage for app image
 FROM base
 
-# 🔧 Add user before copying files
+# Create rails user before copying files
 RUN groupadd --system --gid 1000 rails && \
     useradd rails --uid 1000 --gid 1000 --create-home --shell /bin/bash
 
-# 💾 Copy application and gems
 COPY --from=build --chown=rails:rails "${BUNDLE_PATH}" "${BUNDLE_PATH}"
 COPY --from=build --chown=rails:rails /rails /rails
 
-# ✅ Set working directory
+# Set working directory and fix permissions as root
 WORKDIR /rails
-
-# 📁 Ensure writable folders are created and owned correctly
 RUN mkdir -p tmp/pids log storage && \
     chown -R rails:rails tmp log storage
 
-# 🚫 Set user after permissions fixed
+# Now drop to non-root user
 USER rails
 
-# 🏁 Entrypoint handles db setup
 ENTRYPOINT ["/rails/bin/docker-entrypoint"]
 
-# 🌍 Expose app port
 EXPOSE 3000
-
-# 🚀 Launch server safely
 CMD ["sh", "-c", "rm -f tmp/pids/server.pid && ./bin/rails server -b 0.0.0.0"]
