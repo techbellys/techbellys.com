@@ -147,6 +147,8 @@ docker-compose --env-file .env up --build -d
 
 * will automate it later 
 ```
+bundle lock --add-platform x86_64-linux
+
 docker-compose exec auth_service bundle exec rails db:create db:migrate
 
 ```
